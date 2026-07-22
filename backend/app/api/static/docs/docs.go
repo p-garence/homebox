@@ -348,6 +348,39 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/entities/external/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Entities"
+                ],
+                "summary": "Get Entity by External ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "External ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/repo.EntityOut"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/entities/fields": {
             "get": {
                 "security": [
@@ -3480,6 +3513,10 @@ const docTemplate = `{
                         }
                     ]
                 },
+                "external_id": {
+                    "description": "ExternalID holds the value of the \"external_id\" field.",
+                    "type": "string"
+                },
                 "id": {
                     "description": "ID of the ent.",
                     "type": "string"
@@ -3977,6 +4014,10 @@ const docTemplate = `{
                             "$ref": "#/definitions/ent.GroupEdges"
                         }
                     ]
+                },
+                "external_ids_enabled": {
+                    "description": "ExternalIdsEnabled holds the value of the \"external_ids_enabled\" field.",
+                    "type": "boolean"
                 },
                 "id": {
                     "description": "ID of the ent.",
@@ -4771,6 +4812,25 @@ const docTemplate = `{
                 "entityTypeId": {
                     "type": "string"
                 },
+                "externalId": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "x-nullable": true,
+                    "x-omitempty": true
+                },
+                "manufacturer": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "x-nullable": true,
+                    "x-omitempty": true
+                },
+                "modelNumber": {
+                    "description": "Identifications — optional at create time; populated e.g. by the\nbarcode product-search import flow (#1578).",
+                    "type": "string",
+                    "maxLength": 255,
+                    "x-nullable": true,
+                    "x-omitempty": true
+                },
                 "name": {
                     "type": "string",
                     "maxLength": 255,
@@ -4875,6 +4935,9 @@ const docTemplate = `{
                     ],
                     "x-nullable": true,
                     "x-omitempty": true
+                },
+                "externalId": {
+                    "type": "string"
                 },
                 "fields": {
                     "type": "array",
@@ -5613,6 +5676,9 @@ const docTemplate = `{
                 "currency": {
                     "type": "string"
                 },
+                "external_ids_enabled": {
+                    "type": "boolean"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -5669,6 +5735,9 @@ const docTemplate = `{
             "properties": {
                 "currency": {
                     "type": "string"
+                },
+                "external_ids_enabled": {
+                    "type": "boolean"
                 },
                 "name": {
                     "type": "string"
