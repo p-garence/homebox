@@ -143,8 +143,9 @@ type (
 		SoldNotes string     `json:"soldNotes"`
 
 		// Extras
-		Notes  string            `json:"notes"`
-		Fields []EntityFieldData `json:"fields"`
+		ExternalID string            `json:"externalId"`
+		Notes      string            `json:"notes"`
+		Fields     []EntityFieldData `json:"fields"`
 	}
 
 	EntityPatch struct {
@@ -1522,6 +1523,7 @@ func (r *EntityRepository) UpdateByGroup(ctx context.Context, gid uuid.UUID, dat
 		SetInsured(data.Insured).
 		SetWarrantyDetails(data.WarrantyDetails).
 		SetQuantity(data.Quantity).
+		SetExternalID(data.ExternalID).
 		SetAssetID(int64(data.AssetID)).
 		SetSyncChildEntityLocations(data.SyncChildEntityLocations)
 
@@ -2238,6 +2240,7 @@ func (r *EntityRepository) Duplicate(ctx context.Context, gid, id uuid.UUID, opt
 		SetName(options.CopyPrefix + originalEntity.Name).
 		SetDescription(originalEntity.Description).
 		SetQuantity(originalEntity.Quantity).
+		SetExternalID(originalEntity.ExternalID).
 		SetGroupID(gid).
 		SetAssetID(int64(nextAssetID)).
 		SetSerialNumber(originalEntity.SerialNumber).

@@ -45,7 +45,8 @@ type ExportCSVRow struct {
 	SoldDate  types.Date `csv:"HB.sold_date|HB.sold_time"`
 	SoldNotes string     `csv:"HB.sold_notes"`
 
-	Fields []ExportItemFields `csv:"-"`
+	ExternalID string             `csv:"HB.external_id"`
+	Fields     []ExportItemFields `csv:"-"`
 }
 
 // ============================================================================
