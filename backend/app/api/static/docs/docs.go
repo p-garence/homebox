@@ -4812,7 +4812,7 @@ const docTemplate = `{
                 "entityTypeId": {
                     "type": "string"
                 },
-                "externalId": {
+                "externalID": {
                     "type": "string",
                     "maxLength": 255,
                     "x-nullable": true,
@@ -4936,7 +4936,7 @@ const docTemplate = `{
                     "x-nullable": true,
                     "x-omitempty": true
                 },
-                "externalId": {
+                "externalID": {
                     "type": "string"
                 },
                 "fields": {
@@ -5052,6 +5052,9 @@ const docTemplate = `{
                     "x-nullable": true,
                     "x-omitempty": true
                 },
+                "externalID": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "string"
                 },
@@ -5124,6 +5127,9 @@ const docTemplate = `{
                     ],
                     "x-nullable": true,
                     "x-omitempty": true
+                },
+                "externalID": {
+                    "type": "string"
                 },
                 "id": {
                     "type": "string"
@@ -5539,6 +5545,9 @@ const docTemplate = `{
                     "maxLength": 1000
                 },
                 "entityTypeId": {
+                    "type": "string"
+                },
+                "externalID": {
                     "type": "string"
                 },
                 "fields": {
@@ -6454,6 +6463,9 @@ const docTemplate = `{
                 },
                 "entityTypeId": {
                     "description": "EntityTypeID is the entity type selected by the user. When set it takes\nprecedence; when empty the repository falls back to the group's default.",
+                    "type": "string"
+                },
+                "externalID": {
                     "type": "string"
                 },
                 "name": {

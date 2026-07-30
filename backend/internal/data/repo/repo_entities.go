@@ -100,24 +100,32 @@ type (
 		// barcode product-search import flow (#1578).
 		ModelNumber  string `json:"modelNumber"  validate:"max=255" extensions:"x-nullable,x-omitempty"`
 		Manufacturer string `json:"manufacturer" validate:"max=255" extensions:"x-nullable,x-omitempty"`
-		ExternalID   string `json:"externalId"   validate:"max=255" extensions:"x-nullable,x-omitempty"`
+		ExternalID   string `json:"externalID" validate:"max=255" extensions:"x-nullable,x-omitempty"`
 
 		// Edges
 		TagIDs []uuid.UUID `json:"tagIds"`
 	}
 
 	EntityUpdate struct {
-		ParentID                 uuid.UUID `json:"parentId"                 extensions:"x-nullable,x-omitempty"`
-		ID                       uuid.UUID `json:"id"`
-		AssetID                  AssetID   `json:"assetId"                  swaggertype:"string"`
-		Name                     string    `json:"name"                     validate:"required,min=1,max=255"`
-		Description              string    `json:"description"              validate:"max=1000"`
-		Quantity                 float64   `json:"quantity"`
-		Insured                  bool      `json:"insured"`
-		Archived                 bool      `json:"archived"`
-		SyncChildEntityLocations bool      `json:"syncChildEntityLocations"`
-		EntityTypeID             uuid.UUID `json:"entityTypeId"`
-
+		WarrantyExpires types.Date `json:"warrantyExpires"`
+		// Purchase
+		PurchaseDate types.Date `json:"purchaseDate"`
+		// Sold
+		SoldDate    types.Date `json:"soldDate"`
+		Name        string     `json:"name"                     validate:"required,min=1,max=255"`
+		Description string     `json:"description"              validate:"max=1000"`
+		// Identifications
+		SerialNumber    string `json:"serialNumber"`
+		ModelNumber     string `json:"modelNumber"`
+		Manufacturer    string `json:"manufacturer"`
+		WarrantyDetails string `json:"warrantyDetails"`
+		PurchaseFrom    string `json:"purchaseFrom"  validate:"max=255"`
+		SoldTo          string `json:"soldTo"    validate:"max=255"`
+		SoldNotes       string `json:"soldNotes"`
+		ExternalID      string `json:"externalID"`
+		// Extras
+		ExternalID string `json:"externalID"`
+		Notes      string `json:"notes"`
 		// Edges
 		TagIDs []uuid.UUID `json:"tagIds"`
 
@@ -155,6 +163,7 @@ type (
 		ParentID     uuid.UUID   `json:"parentId"           extensions:"x-nullable,x-omitempty"`
 		EntityTypeID uuid.UUID   `json:"entityTypeId"       extensions:"x-nullable,x-omitempty"`
 		TagIDs       []uuid.UUID `json:"tagIds"             extensions:"x-nullable,x-omitempty"`
+		ExternalID   string      `json:"externalID"`
 	}
 
 	EntitySummary struct {
@@ -168,6 +177,7 @@ type (
 		Archived    bool      `json:"archived"`
 		CreatedAt   time.Time `json:"createdAt"`
 		UpdatedAt   time.Time `json:"updatedAt"`
+		ExternalID  string    `json:"externalID"`
 
 		PurchasePrice float64 `json:"purchasePrice"`
 
@@ -196,7 +206,7 @@ type (
 		SerialNumber string `json:"serialNumber"`
 		ModelNumber  string `json:"modelNumber"`
 		Manufacturer string `json:"manufacturer"`
-		ExternalID   string `json:"externalId"`
+		ExternalID   string `json:"externalID"`
 
 		// Warranty
 		LifetimeWarranty bool       `json:"lifetimeWarranty"`
@@ -1090,6 +1100,7 @@ type EntityCreateFromTemplate struct {
 	ModelNumber      string
 	LifetimeWarranty bool
 	WarrantyDetails  string
+	ExternalID       string
 	Fields           []EntityFieldData
 }
 
@@ -1100,6 +1111,7 @@ func (r *EntityRepository) CreateFromTemplate(ctx context.Context, gid uuid.UUID
 			attribute.String("group.id", gid.String()),
 			attribute.String("entity.name", data.Name),
 			attribute.Float64("entity.quantity", data.Quantity),
+			attribute.String("entity.external_id", data.ExternalID),
 			attribute.Bool("entity.parent_id.set", data.ParentID != uuid.Nil),
 			attribute.Bool("entity.entity_type_id.set", data.EntityTypeID != uuid.Nil),
 			attribute.Int("entity.tags.count", len(data.TagIDs)),
@@ -1176,6 +1188,7 @@ func (r *EntityRepository) CreateFromTemplate(ctx context.Context, gid uuid.UUID
 		SetAssetID(int64(nextAssetID)).
 		SetInsured(data.Insured).
 		SetManufacturer(data.Manufacturer).
+		SetExternalID(data.ExternalID).
 		SetModelNumber(data.ModelNumber).
 		SetLifetimeWarranty(data.LifetimeWarranty).
 		SetWarrantyDetails(data.WarrantyDetails)
@@ -2246,6 +2259,7 @@ func (r *EntityRepository) Duplicate(ctx context.Context, gid, id uuid.UUID, opt
 		SetSerialNumber(originalEntity.SerialNumber).
 		SetModelNumber(originalEntity.ModelNumber).
 		SetManufacturer(originalEntity.Manufacturer).
+		SetExternalID(originalEntity.ExternalID).
 		SetLifetimeWarranty(originalEntity.LifetimeWarranty).
 		SetWarrantyDetails(originalEntity.WarrantyDetails).
 		SetPurchaseFrom(originalEntity.PurchaseFrom).

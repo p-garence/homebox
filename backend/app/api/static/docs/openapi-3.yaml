@@ -3178,7 +3178,7 @@ components:
           maxLength: 1000
         entityTypeId:
           type: string
-        externalId:
+        externalID:
           type: string
           maxLength: 255
           x-omitempty: true
@@ -3267,7 +3267,7 @@ components:
             - $ref: "#/components/schemas/repo.EntityTypeSummary"
           x-omitempty: true
           nullable: true
-        externalId:
+        externalID:
           type: string
         fields:
           type: array
@@ -3347,6 +3347,8 @@ components:
           type: string
           x-omitempty: true
           nullable: true
+        externalID:
+          type: string
         id:
           type: string
         parentId:
@@ -3397,6 +3399,8 @@ components:
             - $ref: "#/components/schemas/repo.EntityTypeSummary"
           x-omitempty: true
           nullable: true
+        externalID:
+          type: string
         id:
           type: string
         imageId:
@@ -3686,6 +3690,8 @@ components:
           type: string
           maxLength: 1000
         entityTypeId:
+          type: string
+        externalID:
           type: string
         fields:
           type: array
@@ -4308,6 +4314,8 @@ components:
             takes
 
             precedence; when empty the repository falls back to the group's default.
+          type: string
+        externalID:
           type: string
         name:
           type: string
