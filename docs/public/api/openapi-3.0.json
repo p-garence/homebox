@@ -5054,7 +5054,7 @@
                     "entityTypeId": {
                         "type": "string"
                     },
-                    "externalId": {
+                    "externalID": {
                         "type": "string",
                         "maxLength": 255,
                         "x-omitempty": true,
@@ -5178,7 +5178,7 @@
                         "x-omitempty": true,
                         "nullable": true
                     },
-                    "externalId": {
+                    "externalID": {
                         "type": "string"
                     },
                     "fields": {
@@ -5294,6 +5294,9 @@
                         "x-omitempty": true,
                         "nullable": true
                     },
+                    "externalID": {
+                        "type": "string"
+                    },
                     "id": {
                         "type": "string"
                     },
@@ -5366,6 +5369,9 @@
                         ],
                         "x-omitempty": true,
                         "nullable": true
+                    },
+                    "externalID": {
+                        "type": "string"
                     },
                     "id": {
                         "type": "string"
@@ -5781,6 +5787,9 @@
                         "maxLength": 1000
                     },
                     "entityTypeId": {
+                        "type": "string"
+                    },
+                    "externalID": {
                         "type": "string"
                     },
                     "fields": {
@@ -6696,6 +6705,9 @@
                     },
                     "entityTypeId": {
                         "description": "EntityTypeID is the entity type selected by the user. When set it takes\nprecedence; when empty the repository falls back to the group's default.",
+                        "type": "string"
+                    },
+                    "externalID": {
                         "type": "string"
                     },
                     "name": {
