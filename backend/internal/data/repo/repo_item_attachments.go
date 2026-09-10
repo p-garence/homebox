@@ -39,6 +39,7 @@ import (
 	_ "gocloud.dev/blob/memblob"
 	_ "gocloud.dev/blob/s3blob"
 
+	"gocloud.dev/gcerrors"
 	"gocloud.dev/pubsub"
 	_ "gocloud.dev/pubsub/awssnssqs"
 	_ "gocloud.dev/pubsub/azuresb"
@@ -573,7 +574,12 @@ func (r *AttachmentRepo) Delete(ctx context.Context, gid uuid.UUID, id uuid.UUID
 			}
 			err = thumbBucket.Delete(ctx, r.fullPath(thumb.Path))
 			if err != nil {
-				return err
+				// Catch the NotFound error for missing thumbnails
+				if gcerrors.Code(err) == gcerrors.NotFound {
+					log.Warn().Str("path", thumb.Path).Msg("Phantom thumbnail not found on disk, proceeding to delete DB record")
+				} else {
+					return err
+				}
 			}
 			_ = doc.Update().SetNillableThumbnailID(nil).SaveX(ctx)
 			_ = thumb.Update().SetNillableThumbnailID(nil).SaveX(ctx)
@@ -593,9 +599,15 @@ func (r *AttachmentRepo) Delete(ctx context.Context, gid uuid.UUID, id uuid.UUID
 				log.Err(err).Msg("failed to close bucket")
 			}
 		}(bucket)
+
 		err = bucket.Delete(ctx, r.fullPath(doc.Path))
 		if err != nil {
-			return err
+			// Catch the NotFound error for the main missing attachment
+			if gcerrors.Code(err) == gcerrors.NotFound {
+				log.Warn().Str("path", doc.Path).Msg("Phantom attachment not found on disk, proceeding to delete DB record")
+			} else {
+				return err
+			}
 		}
 	}
 
