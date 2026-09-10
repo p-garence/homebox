@@ -107,25 +107,17 @@ type (
 	}
 
 	EntityUpdate struct {
-		WarrantyExpires types.Date `json:"warrantyExpires"`
-		// Purchase
-		PurchaseDate types.Date `json:"purchaseDate"`
-		// Sold
-		SoldDate    types.Date `json:"soldDate"`
-		Name        string     `json:"name"                     validate:"required,min=1,max=255"`
-		Description string     `json:"description"              validate:"max=1000"`
-		// Identifications
-		SerialNumber    string `json:"serialNumber"`
-		ModelNumber     string `json:"modelNumber"`
-		Manufacturer    string `json:"manufacturer"`
-		WarrantyDetails string `json:"warrantyDetails"`
-		PurchaseFrom    string `json:"purchaseFrom"  validate:"max=255"`
-		SoldTo          string `json:"soldTo"    validate:"max=255"`
-		SoldNotes       string `json:"soldNotes"`
-		ExternalID      string `json:"externalID"`
-		// Extras
-		ExternalID string `json:"externalID"`
-		Notes      string `json:"notes"`
+		ID                       uuid.UUID `json:"id"`
+		ParentID                 uuid.UUID `json:"parentId" extensions:"x-nullable"`
+		EntityTypeID             uuid.UUID `json:"entityTypeId"`
+		Name                     string    `json:"name" validate:"required,min=1,max=255"`
+		Quantity                 float64   `json:"quantity"`
+		Description              string    `json:"description" validate:"max=1000"`
+		AssetID                  AssetID   `json:"assetId,string"`
+		Insured                  bool      `json:"insured"`
+		Archived                 bool      `json:"archived"`
+		SyncChildEntityLocations bool      `json:"syncChildEntityLocations"`
+
 		// Edges
 		TagIDs []uuid.UUID `json:"tagIds"`
 
